@@ -1,6 +1,7 @@
 package net.sean.tutorialmod;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,20 +26,16 @@ public class TutorialMod {
 
 
 
-    public TutorialMod()
-    {
+    public TutorialMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModItems.register(modEventBus);
-//new tab in creative
+        ModCreativeModTabs.register(modEventBus);
 
+        ModItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-
         modEventBus.addListener(this::addCreative);
     }
 
@@ -46,11 +43,10 @@ public class TutorialMod {
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event){
-        CreativeModeTabs creativeModeTabs=null;
-        if(event.getTabKey() == creativeModeTabs.INGREDIENTS){
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS){
             event.accept(ModItems.SAPPHIRE);
             event.accept(ModItems.RAW_SAPPHIRE);
-
+            event.accept(ModItems.BABY);
         }
     }
 
